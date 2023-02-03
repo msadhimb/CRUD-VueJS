@@ -1,17 +1,51 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <main>
+    <Input />
+    <Show />
+  </main>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Show from "./components/Show.vue";
+import Input from "./components/Input.vue";
+import { computed } from "vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Show,
+    Input,
+  },
+  data() {
+    return {
+      student: [
+        {
+          id: 0,
+          nim: "123456789",
+          nama: "John Doe",
+        },
+        {
+          id: 1,
+          nim: "987654321",
+          nama: "Jane Doe",
+        },
+      ],
+      deletedData: "",
+    };
+  },
+  provide() {
+    return {
+      student: computed(() => this.student),
+      deleteData: this.deleteData,
+    };
+  },
+  methods: {
+    deleteData(id) {
+      this.deletedData = this.student.filter((item) => item.id === id);
+      this.student = this.student.filter((item) => item.id !== id);
+    },
+  },
+};
 </script>
 
 <style>
